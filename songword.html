@@ -1,0 +1,93 @@
+<!DOCTYPE html>  
+<html lang="zh-CN">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>歌词展示</title>  
+    <style>  
+        body {  
+            font-family: Arial, sans-serif;  
+            line-height: 1.6;  
+            margin: 0;  
+            padding: 20px;  
+        }  
+        .lyrics-container {  
+            max-width: 600px;  
+            margin: 0 auto;  
+        }  
+        .lyrics-line {  
+            margin-bottom: 10px;  
+        }  
+        .lyrics-time {  
+            font-weight: bold;  
+            color: #333;  
+            display: inline-block;  
+            min-width: 60px;  
+        }  
+        .lyrics-text {  
+            display: inline-block;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <div class="lyrics-container" id="lyricsContainer">  
+        <!-- 歌词将在这里动态生成 -->  
+    </div>  
+  
+    <script>  
+        // 定义函数来解析时间字符串并转换为秒  
+        function parseTimeToSeconds(timeStr) {  
+            const match = timeStr.match(/(\d{2}):(\d{2})\.(\d{3})/);  
+            if (match) {  
+                const minutes = parseInt(match[1], 10);  
+                const seconds = parseInt(match[2], 10);  
+                const milliseconds = parseInt(match[3], 10);  
+                return (minutes * 60 + seconds + milliseconds / 1000).toFixed(2);  
+            }  
+            return '0.00'; // 如果没有匹配到时间格式，返回0.00秒  
+        }  
+  
+        // 定义歌词字符串  
+const LYRIC = "[00:04.050]\n[00:12.570]难以忘记初次见你\n[00:16.860]一双迷人的眼睛\n[00:21.460]在我脑海里\n[00:23.960]你的身影 挥散不去\n[00:30.160]握你的双手感觉你的温柔\n[00:34.940]真的有点透不过气\n[00:39.680]你的天真 我想珍惜\n[00:43.880]看到你受委屈 我会伤心\n[00:48.180]喔\n[00:50.340]只怕我自己会爱上你\n[00:55.070]不敢让自己靠的太近\n[00:59.550]怕我没什么能够给你\n[01:04.030]爱你也需要很大的勇气\n[01:08.190]只怕我自己会爱上你\n[01:12.910]也许有天会情不自禁\n[01:17.380]想念只让自己苦了自己\n[01:21.840]爱上你是我情非得已\n[01:28.810]难以忘记初次见你\n[01:33.170]一双迷人的眼睛\n[01:37.700]在我脑海里 你的身影 挥散不去\n[01:46.360]握你的双手感觉你的温柔\n[01:51.120]真的有点透不过气\n[01:55.910]你的天真 我想珍惜\n[02:00.150]看到你受委屈 我会伤心\n[02:04.490]喔\n[02:06.540]只怕我自己会爱上你\n[02:11.240]不敢让自己靠的太近\n[02:15.750]怕我没什么能够给你\n[02:20.200]爱你也需要很大的勇气\n[02:24.570]只怕我自己会爱上你\n[02:29.230]也许有天会情不自禁\n[02:33.680]想念只让自己苦了自己\n[02:38.140]爱上你是我情非得已\n[03:04.060]什么原因 耶\n[03:07.730]我竟然又会遇见你\n[03:13.020]我真的真的不愿意\n[03:16.630]就这样陷入爱的陷阱\n[03:20.700]喔\n[03:22.910]只怕我自己会爱上你\n[03:27.570]不敢让自己靠的太近\n[03:32.040]怕我没什么能够给你\n[03:36.560]爱你也需要很大的勇气\n[03:40.740]只怕我自己会爱上你\n[03:45.460]也许有天会情不自禁\n[03:49.990]想念只让自己苦了自己\n[03:54.510]爱上你是我情非得已\n[03:58.970]爱上你是我情非得已\n[04:03.000]\n";
+  
+  // 去除首尾的空行，并按行分割歌词  
+        // 获取要插入歌词的容器元素  
+        const lyricsContainer = document.getElementById('lyricsContainer');  
+  
+        // 去除首尾的空行，并按行分割歌词  
+        const lines = LYRIC.trim().split('\n');  
+  
+        // 遍历每一行并创建歌词元素  
+        lines.forEach(line => {  
+    const timeMatch = line.match(/^\[(\d{2}:\d{2}\.\d{3})\]/);  
+    if (timeMatch) {  
+        const timeStr = timeMatch[1];  
+        const seconds = parseTimeToSeconds(timeStr);  
+        const lyrics = line.replace(`[${timeStr}]`, '');  
+        console.log(`时间：${seconds}秒，歌词：${lyrics.trim()}`);  
+  
+   
+  
+                // 创建一个新的div元素来包含时间和歌词文本  
+                const lyricsLine = document.createElement('div');  
+                lyricsLine.className = 'lyrics-line';  
+  
+                const lyricsTime = document.createElement('span');  
+                lyricsTime.className = 'lyrics-time';  
+                lyricsTime.textContent = `时间：${seconds}秒，歌词：`;  
+  
+                const lyricsText = document.createElement('span');  
+                lyricsText.className = 'lyrics-text';  
+                lyricsText.textContent = lyrics;  
+  
+                // 将时间和歌词文本添加到新的div元素中  
+                lyricsLine.appendChild(lyricsTime);  
+                lyricsLine.appendChild(lyricsText);  
+  
+                // 将新的div元素添加到容器中  
+                lyricsContainer.appendChild(lyricsLine);  
+            }  
+        });  
+    </script>  
+</body>  
+</html>
